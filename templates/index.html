@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <title>Kimlik Doğrulama</title>
+</head>
+<body>
+    <h1>Kimlik Doğrulama</h1>
+
+    <div id="message"></div>
+    <div id="signup">
+        <h2>Kayıt Ol</h2>
+        <input type="text" id="signup-username" placeholder="Kullanıcı Adı">
+        <input type="password" id="signup-password" placeholder="Şifre">
+        <button onclick="signup()">Kayıt Ol</button>
+    </div>
+
+    <div id="login">
+        <h2>Giriş Yap</h2>
+        <input type="text" id="login-username" placeholder="Kullanıcı Adı">
+        <input type="password" id="login-password" placeholder="Şifre">
+        <button onclick="login()">Giriş Yap</button>
+    </div>
+
+    <button onclick="logout()" id="logout" style="display: none;">Çıkış Yap</button>
+    <button onclick="privateRoute()" id="private-route" style="display: none;">Özel Rota</button>
+
+    <script>
+        // Kayıt Olma (POST) İsteği
+        function signup() {
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+            const data = { username, password };
+
+            fetch('http://localhost:5000/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
+        }
+
+ // Giriş Yapma (POST) İsteği
+function login() {
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    const data = { username, password };
+
+    fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('message').innerText = data.message;
+        checkSession();
+
+        // Check if the login was successful
+        if (data.message === "Giriş başarılı.") {
+            // Redirect to the success page
+            window.location.href = '/success';
+        }
+    })
+    .catch(error => {
+        console.error('Hata:', error);
+    });
+}
+
+
+
+
+        // Özel Rota (GET) İsteği
+        function privateRoute() {
+            fetch('http://localhost:5000/private_route')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
+        }
+
+        // Oturum Kontrolü
+        function checkSession() {
+            fetch('http://localhost:5000/check_session')
+            .then(response => response.json())
+            .then(data => {
+                if (data.authenticated) {
+                    document.getElementById('logout').style.display = 'block';
+                    document.getElementById('private-route').style.display = 'block';
+                    document.getElementById('signup').style.display = 'none';
+                    document.getElementById('login').style.display = 'none';
+                } else {
+                    document.getElementById('logout').style.display = 'none';
+                    document.getElementById('private-route').style.display = 'none';
+                    document.getElementById('signup').style.display = 'block';
+                    document.getElementById('login').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+            });
+        }
+
+        // Sayfa Yüklendiğinde Oturum Kontrolü
+        checkSession();
+    </script>
+</body>
+</html>

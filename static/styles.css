@@ -1,0 +1,70 @@
+/* Add this CSS code to a separate .css file and link it in your HTML file */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+#message {
+    color: #333;
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+#signup, #login {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+#signup h2, #login h2 {
+    color: #333;
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px -10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+#logout, #private-route {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+    margin: 10px 0;
+}
+
+#logout:hover, #private-route:hover {
+    background-color: #555;
+}
